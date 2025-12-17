@@ -1,0 +1,65 @@
+{
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "search": "Buscar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Exito",
+    "confirm": "Confirmar"
+  },
+  "nav": {
+    "home": "Inicio",
+    "players": "Jugadores",
+    "coaches": "Entrenadores",
+    "courts": "Pistas",
+    "groups": "Grupos",
+    "bookings": "Reservas",
+    "settings": "Configuracion"
+  },
+  "players": {
+    "title": "Jugadores",
+    "addPlayer": "Anadir Jugador",
+    "name": "Nombre",
+    "email": "Email",
+    "phone": "Telefono",
+    "level": "Nivel",
+    "status": "Estado",
+    "notes": "Notas"
+  },
+  "levels": {
+    "1": "Iniciacion",
+    "2": "Iniciacion+",
+    "3": "Intermedio Bajo",
+    "4": "Intermedio",
+    "5": "Intermedio Alto",
+    "6": "Avanzado",
+    "7": "Competicion"
+  },
+  "courts": {
+    "title": "Pistas",
+    "addCourt": "Anadir Pista",
+    "name": "Nombre",
+    "surface": "Superficie",
+    "indoor": "Interior",
+    "outdoor": "Exterior",
+    "status": "Estado",
+    "available": "Disponible",
+    "maintenance": "Mantenimiento",
+    "reserved": "Reservada"
+  },
+  "bookings": {
+    "title": "Reservas",
+    "newBooking": "Nueva Reserva",
+    "date": "Fecha",
+    "time": "Hora",
+    "court": "Pista",
+    "type": "Tipo",
+    "rental": "Alquiler",
+    "groupClass": "Clase Grupal",
+    "privateLesson": "Clase Privada"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm"
+  },
+  "nav": {
+    "home": "Home",
+    "players": "Players",
+    "coaches": "Coaches",
+    "courts": "Courts",
+    "groups": "Groups",
+    "bookings": "Bookings",
+    "settings": "Settings"
+  },
+  "players": {
+    "title": "Players",
+    "addPlayer": "Add Player",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "level": "Level",
+    "status": "Status",
+    "notes": "Notes"
+  },
+  "levels": {
+    "1": "Beginner",
+    "2": "Beginner+",
+    "3": "Low Intermediate",
+    "4": "Intermediate",
+    "5": "High Intermediate",
+    "6": "Advanced",
+    "7": "Competition"
+  },
+  "courts": {
+    "title": "Courts",
+    "addCourt": "Add Court",
+    "name": "Name",
+    "surface": "Surface",
+    "indoor": "Indoor",
+    "outdoor": "Outdoor",
+    "status": "Status",
+    "available": "Available",
+    "maintenance": "Maintenance",
+    "reserved": "Reserved"
+  },
+  "bookings": {
+    "title": "Bookings",
+    "newBooking": "New Booking",
+    "date": "Date",
+    "time": "Time",
+    "court": "Court",
+    "type": "Type",
+    "rental": "Rental",
+    "groupClass": "Group Class",
+    "privateLesson": "Private Lesson"
+  }
+}

@@ -9,7 +9,20 @@
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "apply": "Apply",
+    "reset": "Reset",
+    "export": "Export",
+    "print": "Print",
+    "refresh": "Refresh",
+    "viewAll": "View All",
+    "noResults": "No results found",
+    "selectAll": "Select All",
+    "deselectAll": "Deselect All"
   },
   "nav": {
     "home": "Home",
@@ -18,6 +31,7 @@
     "courts": "Courts",
     "groups": "Groups",
     "bookings": "Bookings",
+    "attendance": "Attendance",
     "settings": "Settings"
   },
   "players": {
@@ -61,5 +75,125 @@
     "rental": "Rental",
     "groupClass": "Group Class",
     "privateLesson": "Private Lesson"
+  },
+  "attendance": {
+    "title": "Attendance",
+    "dashboard": "Attendance Dashboard",
+    "calendar": "Attendance Calendar",
+    "reports": "Attendance Reports",
+    "history": "Attendance History",
+    "markAttendance": "Mark Attendance",
+    "selfCheckIn": "Self Check-in",
+    "checkIn": "Check In",
+    "imHere": "I'm Here!",
+    "status": {
+      "pending": "Pending",
+      "present": "Present",
+      "late": "Late",
+      "absent": "Absent",
+      "excused": "Excused"
+    },
+    "statusDescription": {
+      "pending": "Not yet marked",
+      "present": "Player attended the session",
+      "late": "Player arrived late",
+      "absent": "Player did not attend",
+      "excused": "Absence was excused in advance"
+    },
+    "stats": {
+      "attendanceRate": "Attendance Rate",
+      "totalSessions": "Total Sessions",
+      "sessionsAttended": "Sessions Attended",
+      "absences": "Absences",
+      "lateArrivals": "Late Arrivals",
+      "excusedAbsences": "Excused Absences",
+      "currentStreak": "Current Streak",
+      "bestStreak": "Best Streak",
+      "averageAttendance": "Average Attendance",
+      "groupAverage": "Group Average",
+      "clubAverage": "Club Average",
+      "trend": "Trend",
+      "comparedToAverage": "compared to average"
+    },
+    "actions": {
+      "markAll": "Mark All Present",
+      "markAllAbsent": "Mark All Absent",
+      "clearAll": "Clear All",
+      "export": "Export Report",
+      "exportCSV": "Export to CSV",
+      "exportPDF": "Export to PDF",
+      "undo": "Undo",
+      "save": "Save Attendance",
+      "saveAll": "Save All",
+      "bulkActions": "Bulk Actions"
+    },
+    "filters": {
+      "all": "All",
+      "today": "Today",
+      "thisWeek": "This Week",
+      "thisMonth": "This Month",
+      "dateRange": "Date Range",
+      "byStatus": "By Status",
+      "byGroup": "By Group",
+      "byCoach": "By Coach",
+      "byPlayer": "By Player"
+    },
+    "session": {
+      "todaysSessions": "Today's Sessions",
+      "upcomingSessions": "Upcoming Sessions",
+      "pastSessions": "Past Sessions",
+      "noSessions": "No sessions scheduled",
+      "sessionDetails": "Session Details",
+      "playersRegistered": "Players Registered",
+      "playersMarked": "Players Marked",
+      "allMarked": "All players marked",
+      "pendingAttendance": "Pending Attendance",
+      "requiresAttention": "Requires Attention"
+    },
+    "player": {
+      "playerAttendance": "Player Attendance",
+      "attendanceHistory": "Attendance History",
+      "noHistory": "No attendance history yet",
+      "lastSession": "Last Session",
+      "nextSession": "Next Session"
+    },
+    "group": {
+      "groupAttendance": "Group Attendance",
+      "groupOverview": "Group Overview",
+      "playerComparison": "Player Comparison",
+      "lowAttendanceAlert": "Low Attendance Alert",
+      "autoCancelWarning": "May be cancelled due to low attendance"
+    },
+    "notifications": {
+      "markedSuccessfully": "Attendance marked successfully",
+      "savedSuccessfully": "Attendance saved successfully",
+      "errorSaving": "Error saving attendance",
+      "checkInSuccessful": "Check-in successful!",
+      "alreadyCheckedIn": "Already checked in",
+      "checkInNotAvailable": "Check-in not available yet",
+      "checkInExpired": "Check-in window has expired"
+    },
+    "checkInWindow": {
+      "opensIn": "Check-in opens in",
+      "closesIn": "Check-in closes in",
+      "minutes": "minutes"
+    },
+    "notes": {
+      "addNote": "Add Note",
+      "notePlaceholder": "Add a note about this attendance..."
+    },
+    "empty": {
+      "noAttendanceRecords": "No attendance records",
+      "noSessionsToday": "No sessions scheduled for today",
+      "startTracking": "Start tracking attendance by marking players present or absent"
+    },
+    "heatmap": {
+      "legend": "Legend",
+      "noData": "No data",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "perfect": "Perfect"
+    }
   }
 }

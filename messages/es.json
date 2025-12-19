@@ -8,8 +8,21 @@
     "search": "Buscar",
     "loading": "Cargando...",
     "error": "Error",
-    "success": "Exito",
-    "confirm": "Confirmar"
+    "success": "Éxito",
+    "confirm": "Confirmar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "close": "Cerrar",
+    "apply": "Aplicar",
+    "reset": "Restablecer",
+    "export": "Exportar",
+    "print": "Imprimir",
+    "refresh": "Actualizar",
+    "viewAll": "Ver Todo",
+    "noResults": "No se encontraron resultados",
+    "selectAll": "Seleccionar Todo",
+    "deselectAll": "Deseleccionar Todo"
   },
   "nav": {
     "home": "Inicio",
@@ -18,7 +31,8 @@
     "courts": "Pistas",
     "groups": "Grupos",
     "bookings": "Reservas",
-    "settings": "Configuracion"
+    "attendance": "Asistencia",
+    "settings": "Configuración"
   },
   "players": {
     "title": "Jugadores",
@@ -61,5 +75,125 @@
     "rental": "Alquiler",
     "groupClass": "Clase Grupal",
     "privateLesson": "Clase Privada"
+  },
+  "attendance": {
+    "title": "Asistencia",
+    "dashboard": "Panel de Asistencia",
+    "calendar": "Calendario de Asistencia",
+    "reports": "Informes de Asistencia",
+    "history": "Historial de Asistencia",
+    "markAttendance": "Marcar Asistencia",
+    "selfCheckIn": "Auto Registro",
+    "checkIn": "Registrar Entrada",
+    "imHere": "¡Estoy Aquí!",
+    "status": {
+      "pending": "Pendiente",
+      "present": "Presente",
+      "late": "Tarde",
+      "absent": "Ausente",
+      "excused": "Justificado"
+    },
+    "statusDescription": {
+      "pending": "Aún no marcado",
+      "present": "El jugador asistió a la sesión",
+      "late": "El jugador llegó tarde",
+      "absent": "El jugador no asistió",
+      "excused": "Ausencia justificada con antelación"
+    },
+    "stats": {
+      "attendanceRate": "Tasa de Asistencia",
+      "totalSessions": "Sesiones Totales",
+      "sessionsAttended": "Sesiones Asistidas",
+      "absences": "Ausencias",
+      "lateArrivals": "Llegadas Tarde",
+      "excusedAbsences": "Ausencias Justificadas",
+      "currentStreak": "Racha Actual",
+      "bestStreak": "Mejor Racha",
+      "averageAttendance": "Asistencia Promedio",
+      "groupAverage": "Promedio del Grupo",
+      "clubAverage": "Promedio del Club",
+      "trend": "Tendencia",
+      "comparedToAverage": "comparado con el promedio"
+    },
+    "actions": {
+      "markAll": "Marcar Todos Presente",
+      "markAllAbsent": "Marcar Todos Ausente",
+      "clearAll": "Limpiar Todo",
+      "export": "Exportar Informe",
+      "exportCSV": "Exportar a CSV",
+      "exportPDF": "Exportar a PDF",
+      "undo": "Deshacer",
+      "save": "Guardar Asistencia",
+      "saveAll": "Guardar Todo",
+      "bulkActions": "Acciones Masivas"
+    },
+    "filters": {
+      "all": "Todos",
+      "today": "Hoy",
+      "thisWeek": "Esta Semana",
+      "thisMonth": "Este Mes",
+      "dateRange": "Rango de Fechas",
+      "byStatus": "Por Estado",
+      "byGroup": "Por Grupo",
+      "byCoach": "Por Entrenador",
+      "byPlayer": "Por Jugador"
+    },
+    "session": {
+      "todaysSessions": "Sesiones de Hoy",
+      "upcomingSessions": "Próximas Sesiones",
+      "pastSessions": "Sesiones Pasadas",
+      "noSessions": "No hay sesiones programadas",
+      "sessionDetails": "Detalles de la Sesión",
+      "playersRegistered": "Jugadores Registrados",
+      "playersMarked": "Jugadores Marcados",
+      "allMarked": "Todos los jugadores marcados",
+      "pendingAttendance": "Asistencia Pendiente",
+      "requiresAttention": "Requiere Atención"
+    },
+    "player": {
+      "playerAttendance": "Asistencia del Jugador",
+      "attendanceHistory": "Historial de Asistencia",
+      "noHistory": "Sin historial de asistencia aún",
+      "lastSession": "Última Sesión",
+      "nextSession": "Próxima Sesión"
+    },
+    "group": {
+      "groupAttendance": "Asistencia del Grupo",
+      "groupOverview": "Resumen del Grupo",
+      "playerComparison": "Comparación de Jugadores",
+      "lowAttendanceAlert": "Alerta de Baja Asistencia",
+      "autoCancelWarning": "Puede cancelarse por baja asistencia"
+    },
+    "notifications": {
+      "markedSuccessfully": "Asistencia marcada correctamente",
+      "savedSuccessfully": "Asistencia guardada correctamente",
+      "errorSaving": "Error al guardar asistencia",
+      "checkInSuccessful": "¡Registro exitoso!",
+      "alreadyCheckedIn": "Ya estás registrado",
+      "checkInNotAvailable": "El registro aún no está disponible",
+      "checkInExpired": "El tiempo de registro ha expirado"
+    },
+    "checkInWindow": {
+      "opensIn": "El registro abre en",
+      "closesIn": "El registro cierra en",
+      "minutes": "minutos"
+    },
+    "notes": {
+      "addNote": "Añadir Nota",
+      "notePlaceholder": "Añade una nota sobre esta asistencia..."
+    },
+    "empty": {
+      "noAttendanceRecords": "Sin registros de asistencia",
+      "noSessionsToday": "No hay sesiones programadas para hoy",
+      "startTracking": "Comienza a registrar asistencia marcando jugadores como presente o ausente"
+    },
+    "heatmap": {
+      "legend": "Leyenda",
+      "noData": "Sin datos",
+      "low": "Bajo",
+      "medium": "Medio",
+      "high": "Alto",
+      "perfect": "Perfecto"
+    }
   }
 }

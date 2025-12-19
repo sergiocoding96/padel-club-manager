@@ -82,9 +82,123 @@ npm run lint     # Run linter
 2. Court Management
 3. Group Management
 4. Court Booking Calendar
-5. Attendance System
+5. Attendance System ← **CURRENT FOCUS**
 6. Payment Tracking
 7. Activities Hub
 8. Player Zone
 9. Feedback System
 10. Promotions Module
+
+---
+
+## Attendance Feature - Development Guide
+
+### Overview
+The attendance system tracks player presence for bookings, group classes, and private lessons. It supports coach-marked attendance, player self check-in, absence tracking, and automated notifications.
+
+### Database Schema (attendance table)
+```sql
+attendance (
+  id UUID PRIMARY KEY,
+  booking_id UUID REFERENCES bookings(id),
+  player_id UUID REFERENCES players(id),
+  status VARCHAR(20): 'pending' | 'present' | 'absent' | 'late' | 'excused',
+  marked_by UUID REFERENCES coaches(id),
+  marked_at TIMESTAMPTZ,
+  notes TEXT,
+  check_in_method VARCHAR(20): 'coach' | 'self' | 'auto',
+  created_at, updated_at TIMESTAMPTZ
+)
+-- UNIQUE constraint on (booking_id, player_id)
+```
+
+### Attendance Status System
+| Status | Color | Description |
+|--------|-------|-------------|
+| pending | stone/gray | Not yet marked |
+| present | green-500 | Player attended |
+| late | amber-500 | Player arrived late |
+| absent | red-500 | Player did not attend |
+| excused | blue-500 | Absence was excused in advance |
+
+### Component Naming Conventions
+```
+src/components/attendance/
+├── AttendanceStatusBadge.tsx      # Status indicator badge
+├── AttendanceCard.tsx              # Single booking attendance card
+├── AttendancePlayerRow.tsx         # Row in attendance list
+├── AttendanceQuickActions.tsx      # Quick mark buttons
+├── AttendanceCalendarHeatmap.tsx   # Visual attendance calendar
+├── AttendanceStatsWidget.tsx       # Statistics dashboard widget
+├── AttendanceHistoryTable.tsx      # Player/group history
+├── AttendanceBulkActions.tsx       # Bulk marking controls
+├── AttendanceExportButton.tsx      # Export functionality
+└── index.ts                        # Barrel exports
+```
+
+### Page Routes
+```
+/attendance                        # Attendance dashboard (today's overview)
+/attendance/booking/[id]           # Mark attendance for specific booking
+/attendance/calendar               # Calendar view with heatmap
+/attendance/reports                # Attendance reports & analytics
+/players/[id]/attendance           # Player attendance history
+/groups/[id]/attendance            # Group attendance overview
+```
+
+### Translations Namespace
+```json
+{
+  "attendance": {
+    "title": "Attendance",
+    "markAttendance": "Mark Attendance",
+    "selfCheckIn": "Self Check-in",
+    "status": {
+      "pending": "Pending",
+      "present": "Present",
+      "late": "Late",
+      "absent": "Absent",
+      "excused": "Excused"
+    },
+    "stats": {
+      "attendanceRate": "Attendance Rate",
+      "totalSessions": "Total Sessions",
+      "absences": "Absences"
+    },
+    "actions": {
+      "markAll": "Mark All Present",
+      "clearAll": "Clear All",
+      "export": "Export Report"
+    }
+  }
+}
+```
+
+### Key Utilities to Create
+```typescript
+// src/lib/attendance.ts
+getAttendanceRate(playerId: string, dateRange?: DateRange): Promise<number>
+getSessionsAttended(playerId: string): Promise<number>
+getUpcomingAbsences(groupId: string): Promise<Attendance[]>
+shouldAutoCancel(bookingId: string, threshold: number): Promise<boolean>
+generateAttendanceReport(filters: AttendanceFilters): Promise<AttendanceReport>
+```
+
+### Testing Requirements
+- Unit tests for all attendance utility functions
+- Component tests for attendance UI components
+- Integration tests for attendance API endpoints
+- E2E tests for complete attendance marking flows
+- Accessibility tests for all attendance UI
+
+### Performance Considerations
+- Paginate attendance history (max 50 records per page)
+- Cache attendance rates for dashboard widgets
+- Use optimistic UI updates for marking attendance
+- Debounce bulk operations
+
+### Security Rules
+- Only coaches/admins can mark attendance for others
+- Players can only self check-in for their own bookings
+- Attendance records are immutable after 24 hours (admin override only)
+- Audit log for all attendance modifications

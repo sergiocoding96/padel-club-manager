@@ -39,10 +39,10 @@ export function Modal({ isOpen, onClose, title, description, children, size = 'm
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
+    <div className="fixed inset-0 z-50 overflow-y-auto animate-fade-in">
       <div className="fixed inset-0 bg-black/50 transition-opacity" onClick={onClose} />
       <div className="flex min-h-full items-center justify-center p-4">
-        <div className={cn('relative w-full bg-white rounded-xl shadow-xl transform transition-all', sizeStyles[size])} onClick={(e) => e.stopPropagation()}>
+        <div className={cn('relative w-full bg-white rounded-xl shadow-xl transform transition-all animate-scale-in', sizeStyles[size])} onClick={(e) => e.stopPropagation()}>
           {(title || showClose) && (
             <div className="flex items-start justify-between p-6 border-b border-stone-200">
               <div>

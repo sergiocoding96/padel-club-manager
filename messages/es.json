@@ -10,8 +10,10 @@
     "error": "Error",
     "success": "Exito",
     "confirm": "Confirmar",
-    "close": "Cerrar",
     "back": "Volver",
+    "close": "Cerrar",
+    "view": "Ver",
+    "actions": "Acciones",
     "next": "Siguiente",
     "previous": "Anterior",
     "today": "Hoy",
@@ -19,13 +21,23 @@
     "no": "No",
     "all": "Todos",
     "none": "Ninguno",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "ascending": "Ascendente",
+    "descending": "Descendente",
+    "page": "Pagina",
+    "of": "de",
+    "showing": "Mostrando",
+    "results": "resultados",
+    "noResults": "Sin resultados",
+    "tryAgain": "Intentar de nuevo",
+    "retry": "Reintentar",
+    "errorMessage": "Ha ocurrido un error inesperado. Por favor intenta de nuevo.",
     "select": "Seleccionar",
     "required": "Requerido",
     "optional": "Opcional",
-    "actions": "Acciones",
     "details": "Detalles",
-    "duplicate": "Duplicar",
-    "retry": "Reintentar"
+    "duplicate": "Duplicar"
   },
   "nav": {
     "home": "Inicio",
@@ -38,16 +50,109 @@
   },
   "players": {
     "title": "Jugadores",
+    "subtitle": "Gestiona los jugadores de tu club de padel",
     "addPlayer": "Anadir Jugador",
+    "editPlayer": "Editar Jugador",
+    "deletePlayer": "Eliminar Jugador",
+    "playerDetails": "Detalles del Jugador",
+    "newPlayer": "Nuevo Jugador",
     "name": "Nombre",
     "email": "Email",
     "phone": "Telefono",
     "level": "Nivel",
     "status": "Estado",
     "notes": "Notas",
+    "objectives": "Objetivos",
+    "createdAt": "Fecha de registro",
+    "updatedAt": "Ultima actualizacion",
     "active": "Activo",
     "inactive": "Inactivo",
-    "suspended": "Suspendido"
+    "suspended": "Suspendido",
+    "form": {
+      "namePlaceholder": "Nombre completo del jugador",
+      "emailPlaceholder": "correo@ejemplo.com",
+      "phonePlaceholder": "+34 600 000 000",
+      "notesPlaceholder": "Notas adicionales sobre el jugador...",
+      "objectivesPlaceholder": "Objetivos de entrenamiento del jugador...",
+      "selectLevel": "Seleccionar nivel",
+      "selectStatus": "Seleccionar estado"
+    },
+    "validation": {
+      "nameRequired": "El nombre es requerido",
+      "nameMinLength": "El nombre debe tener al menos 2 caracteres",
+      "nameMaxLength": "El nombre no puede exceder 100 caracteres",
+      "emailInvalid": "Email invalido",
+      "phoneInvalid": "Formato de telefono invalido",
+      "levelRequired": "El nivel es requerido",
+      "levelRange": "El nivel debe estar entre 1 y 7"
+    },
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "suspended": "Suspendido"
+    },
+    "filters": {
+      "searchPlaceholder": "Buscar por nombre, email o telefono...",
+      "allStatuses": "Todos los estados",
+      "allLevels": "Todos los niveles",
+      "levelRange": "Rango de nivel",
+      "from": "Desde",
+      "to": "Hasta",
+      "clearFilters": "Limpiar filtros"
+    },
+    "sort": {
+      "sortBy": "Ordenar por",
+      "name": "Nombre",
+      "level": "Nivel",
+      "createdAt": "Fecha de registro",
+      "updatedAt": "Ultima actualizacion"
+    },
+    "view": {
+      "grid": "Cuadricula",
+      "list": "Lista"
+    },
+    "empty": {
+      "title": "Sin jugadores",
+      "description": "No se encontraron jugadores. Comienza agregando tu primer jugador.",
+      "noResultsTitle": "Sin resultados",
+      "noResultsDescription": "No se encontraron jugadores con los filtros actuales."
+    },
+    "stats": {
+      "total": "Total",
+      "active": "Activos",
+      "inactive": "Inactivos",
+      "suspended": "Suspendidos",
+      "byLevel": "Por nivel"
+    },
+    "messages": {
+      "createSuccess": "Jugador creado exitosamente",
+      "updateSuccess": "Jugador actualizado exitosamente",
+      "deleteSuccess": "Jugador eliminado exitosamente",
+      "createError": "Error al crear el jugador",
+      "updateError": "Error al actualizar el jugador",
+      "deleteError": "Error al eliminar el jugador",
+      "loadError": "Error al cargar los jugadores",
+      "deleteConfirm": "Estas seguro que deseas eliminar a este jugador?"
+    },
+    "pagination": {
+      "showing": "Mostrando {start} a {end} de {total} jugadores"
+    },
+    "emptyState": {
+      "title": "Sin jugadores",
+      "description": "No se encontraron jugadores. Comienza agregando tu primer jugador."
+    },
+    "confirm": {
+      "deleteTitle": "Eliminar jugador",
+      "deleteMessage": "Estas seguro que deseas eliminar a este jugador? Esta accion cambiara su estado a inactivo.",
+      "permanentDeleteTitle": "Eliminar permanentemente",
+      "permanentDeleteMessage": "Estas seguro que deseas eliminar permanentemente a este jugador? Esta accion no se puede deshacer."
+    },
+    "tabs": {
+      "overview": "Resumen",
+      "groups": "Grupos",
+      "attendance": "Asistencia",
+      "history": "Historial"
+    }
   },
   "levels": {
     "1": "Iniciacion",
@@ -56,7 +161,16 @@
     "4": "Intermedio",
     "5": "Intermedio Alto",
     "6": "Avanzado",
-    "7": "Competicion"
+    "7": "Competicion",
+    "categories": {
+      "beginner": "Iniciacion",
+      "beginner_plus": "Iniciacion+",
+      "low_intermediate": "Intermedio Bajo",
+      "intermediate": "Intermedio",
+      "high_intermediate": "Intermedio Alto",
+      "advanced": "Avanzado",
+      "competition": "Competicion"
+    }
   },
   "coaches": {
     "title": "Entrenadores",

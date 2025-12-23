@@ -11,9 +11,12 @@ export function createClient() {
 // Singleton instance for client-side usage
 let clientInstance: ReturnType<typeof createClient> | null = null
 
-export function getSupabaseClient() {
+export function getClient() {
   if (!clientInstance) {
     clientInstance = createClient()
   }
   return clientInstance
 }
+
+// Alias for compatibility
+export const getSupabaseClient = getClient

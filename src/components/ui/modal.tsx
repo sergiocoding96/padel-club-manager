@@ -57,7 +57,7 @@ export function Modal({ isOpen, onClose, title, description, children, size = 'm
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
+    <div className="fixed inset-0 z-50 overflow-y-auto animate-fade-in">
       <div
         className="fixed inset-0 bg-black/50 transition-opacity"
         onClick={onClose}
@@ -72,7 +72,7 @@ export function Modal({ isOpen, onClose, title, description, children, size = 'm
           aria-describedby={description ? descriptionId : undefined}
           tabIndex={-1}
           className={cn(
-            'relative w-full bg-white rounded-xl shadow-xl transform transition-all',
+            'relative w-full bg-white rounded-xl shadow-xl transform transition-all animate-scale-in',
             'focus:outline-none',
             sizeStyles[size]
           )}

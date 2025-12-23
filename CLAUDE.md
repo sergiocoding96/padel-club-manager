@@ -1,232 +1,315 @@
-# Padel Club Manager - AI Development Guide
+# Padel Club Manager - Player Profiles Feature
+
+## Current Focus: Player Profiles Feature
+This worktree is dedicated to implementing the **Player Profiles** feature - the first core feature of the Padel Club Manager system. All development should be focused on completing this feature before moving to other features.
+
+---
 
 ## Project Overview
-Padel club management system for recreational clubs. Features: player profiles, court management, group scheduling, bookings, attendance, and payments.
+Padel club management system for recreational clubs. The Player Profiles feature enables comprehensive player management with an impressive, user-friendly interface.
 
 ## Tech Stack
 - **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript
+- **Language**: TypeScript (strict mode)
 - **Styling**: Tailwind CSS
 - **Database**: Supabase (PostgreSQL)
 - **i18n**: next-intl (Spanish + English)
 - **Icons**: Lucide React
+- **Testing**: Playwright (E2E), Jest (unit tests)
+
+---
+
+## AI Agent & Tool Integration
+
+### When to Use Specialized Agents
+
+#### 1. Database Work
+**Use: `database-architect` agent**
+- Designing or modifying the players table schema
+- Writing complex queries for player search/filtering
+- Optimizing player-related indexes
+- Creating migration files
+
+#### 2. Backend API Development
+**Use: `backend-service-architect` agent**
+- Creating player CRUD API routes
+- Implementing search/filter endpoints
+- Designing API response structures
+- Error handling patterns
+
+#### 3. Frontend UI Components
+**Use: `frontend-architect` agent**
+- Player list component architecture
+- Player card/profile design
+- Form components for player creation/editing
+- Search and filter UI patterns
+- Responsive design decisions
+
+**Use: `frontend-design` plugin (CRITICAL for impressive UI)**
+- Player profile cards with visual level indicators
+- Dashboard statistics widgets
+- Interactive level selector component
+- Animated status badges
+- Modern data tables with sorting
+
+#### 4. Architecture Decisions
+**Use: `architecture-advisor` agent**
+- Component structure decisions
+- State management patterns
+- Data fetching strategies
+- Caching approaches
+
+#### 5. Code Quality
+**Use: `code-reviewer` agent**
+- After implementing any significant component
+- Before creating pull requests
+- When refactoring existing code
+
+**Use: `feature-dev:code-reviewer` agent**
+- Comprehensive code reviews with confidence filtering
+- Security and convention adherence checks
+
+#### 6. Security
+**Use: `security-guardian` agent**
+- Input validation for player forms
+- Data sanitization
+- API endpoint security
+- XSS prevention in player notes/objectives
+
+#### 7. Testing
+**Use: `test-strategist` agent**
+- Designing test strategy for player features
+- Writing unit tests for utilities
+- Creating integration tests for API routes
+- E2E test scenarios
+
+**Use: Playwright MCP tools**
+- `browser_navigate`, `browser_snapshot`, `browser_click`
+- Visual testing of player UI
+- Form interaction testing
+- Cross-browser verification
+
+#### 8. Codebase Exploration
+**Use: `feature-dev:code-explorer` agent**
+- Understanding existing patterns
+- Tracing component dependencies
+- Mapping data flows
+
+#### 9. Feature Planning
+**Use: `feature-dev:code-architect` agent**
+- Designing player feature architecture
+- Creating implementation blueprints
+- Component design specifications
+
+#### 10. Version Control
+**Use: GitHub MCP tools**
+- `create_branch`, `push_files`, `create_pull_request`
+- Managing feature branches
+- Creating focused PRs
+
+---
 
 ## Project Structure
 ```
 src/
-├── app/                 # Next.js App Router pages
+├── app/
+│   ├── page.tsx                    # Homepage
+│   └── players/                    # Player Profiles feature
+│       ├── page.tsx               # Player list page
+│       ├── [id]/
+│       │   └── page.tsx           # Player detail page
+│       └── components/            # Player-specific components
+│           ├── PlayerCard.tsx
+│           ├── PlayerList.tsx
+│           ├── PlayerModal.tsx
+│           ├── PlayerSearch.tsx
+│           ├── PlayerFilters.tsx
+│           ├── LevelIndicator.tsx
+│           └── StatusBadge.tsx
 ├── components/
-│   ├── ui/             # Reusable UI components
-│   └── ...             # Feature-specific components
+│   └── ui/                        # Reusable UI components
+│       ├── button.tsx
+│       ├── input.tsx
+│       ├── modal.tsx
+│       ├── badge.tsx
+│       ├── avatar.tsx
+│       ├── card.tsx               # To be created
+│       ├── skeleton.tsx           # To be created
+│       ├── dropdown.tsx           # To be created
+│       └── tabs.tsx               # To be created
 ├── lib/
-│   ├── utils.ts        # Utility functions
-│   └── supabase/       # Database client
-├── types/              # TypeScript types
-└── i18n/               # Internationalization
-messages/               # Translation files (en.json, es.json)
+│   ├── utils.ts                   # Utility functions
+│   └── supabase/
+│       ├── client.ts              # Browser client
+│       ├── server.ts              # Server client
+│       └── players.ts             # Player data functions
+├── types/
+│   ├── database.ts                # Database types (generated)
+│   └── player.ts                  # Player-specific types
+├── hooks/
+│   ├── usePlayer.ts               # Player data hook
+│   ├── usePlayers.ts              # Players list hook
+│   └── usePlayerFilters.ts        # Filter state hook
+└── i18n/
+    └── request.ts
+messages/
+├── en.json                         # English translations
+└── es.json                         # Spanish translations
 supabase/
-└── migrations/         # Database migrations
+└── migrations/
+    └── 001_initial_schema.sql
 ```
-
-## Key Conventions
-
-### Component Patterns
-- Use 'use client' only when needed (useState, useEffect, event handlers)
-- Server components by default
-- UI components in `src/components/ui/`
-- Feature components alongside their pages
-
-### Styling
-- Use `cn()` utility for conditional classes
-- Primary brand color: blue-600
-- Stone palette for neutral colors
-- Consistent spacing: p-4, p-6 for containers
-
-### i18n
-- All user-facing text must use translations
-- Access via `useTranslations('namespace')`
-- Default locale: Spanish (es)
-- Translation files in `/messages/`
-
-### Database
-- Use Supabase client from `@/lib/supabase/client`
-- Types in `@/types/database.ts`
-- Migrations in `supabase/migrations/`
-
-## Player Level System
-- Numeric: 1-7 scale
-- Categories:
-  - 1: Iniciación / Beginner
-  - 2: Iniciación+ / Beginner+
-  - 3: Intermedio Bajo / Low Intermediate
-  - 4: Intermedio / Intermediate
-  - 5: Intermedio Alto / High Intermediate
-  - 6: Avanzado / Advanced
-  - 7: Competición / Competition
-
-## Git Workflow
-- Main branch: `main`
-- Feature branches: `feature/feature-name`
-- Use git worktrees for parallel development
-- Small, focused PRs
-
-## Commands
-```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run lint     # Run linter
-```
-
-## Feature Development Order
-1. Player Profiles
-2. Court Management
-3. Group Management
-4. Court Booking Calendar
-5. Attendance System
-6. Payment Tracking
-7. Activities Hub
-8. Player Zone
-9. Feedback System
-10. Promotions Module
 
 ---
 
-## Court Booking Feature - Development Guide
+## Player Level System
+Visual and functional level representation:
 
-### Overview
-The Court Booking Calendar is the central feature for managing court reservations. It provides a visual weekly calendar with court columns and time rows, supporting three booking types: rentals, group classes, and private lessons.
+| Level | Spanish | English | Color Code |
+|-------|---------|---------|------------|
+| 1 | Iniciacion | Beginner | `emerald-400` |
+| 2 | Iniciacion+ | Beginner+ | `emerald-500` |
+| 3 | Intermedio Bajo | Low Intermediate | `amber-400` |
+| 4 | Intermedio | Intermediate | `amber-500` |
+| 5 | Intermedio Alto | High Intermediate | `orange-500` |
+| 6 | Avanzado | Advanced | `red-500` |
+| 7 | Competicion | Competition | `purple-600` |
 
-### UI/UX Design Goals
-- **Visual Clarity**: Color-coded booking types with clear time boundaries
-- **Intuitive Interaction**: Click-to-book, drag-to-resize, double-click to edit
-- **Responsive Design**: Works on desktop (full calendar) and mobile (single-day view)
-- **Real-time Feedback**: Immediate conflict detection and visual indicators
-- **Accessibility**: Keyboard navigation, ARIA labels, screen reader support
+**Visual Indicators:**
+- Progress bar showing level (1-7 scale)
+- Color-coded badges
+- Star rating alternative view
+- Level trend indicator (improving/stable/declining)
 
-### Component Architecture
+---
+
+## Key UI/UX Requirements
+
+### Player List Page
+- **Grid/List toggle view**
+- **Search bar** with real-time filtering
+- **Filter panel**: status, level range, groups
+- **Sort options**: name, level, created date, last activity
+- **Bulk actions**: activate/deactivate multiple
+- **Quick add** button with floating action
+- **Empty states** with helpful guidance
+- **Loading skeletons** for smooth UX
+- **Pagination** or infinite scroll
+
+### Player Card Component
+- **Avatar** with initials fallback
+- **Name** prominently displayed
+- **Level badge** with color coding
+- **Status indicator** (active/inactive/suspended)
+- **Quick actions** on hover (edit, view, contact)
+- **Subtle animation** on interactions
+- **Contact icons** (phone, email) with tooltips
+
+### Player Detail/Modal
+- **Tabbed interface**: Info, Groups, History, Notes
+- **Editable fields** with inline editing option
+- **Level selector** with visual feedback
+- **Notes/objectives** with rich text
+- **Activity timeline** (future)
+- **Group memberships** (future integration)
+
+---
+
+## Development Conventions
+
+### Component Patterns
+- Server components by default
+- `'use client'` only for interactivity
+- Co-locate feature components with pages
+- Extract reusable pieces to `components/ui/`
+
+### Styling
+- Use `cn()` utility for conditional classes
+- Primary: `blue-600`
+- Neutral: `stone-*` palette
+- Spacing: `p-4`, `p-6` for containers
+- Border radius: `rounded-lg`, `rounded-xl`
+- Shadows: `shadow-sm`, `shadow-md` for elevation
+
+### i18n
+- ALL user-facing text via `useTranslations()`
+- Default locale: Spanish (es)
+- Namespace: `players` for player-related strings
+- Update BOTH `en.json` and `es.json`
+
+### Testing Requirements
+- **Every feature must have tests**
+- Unit tests for utilities and hooks
+- Integration tests for API routes
+- E2E tests for user flows with Playwright
+- Visual regression tests for UI components
+
+### Database
+- Use Supabase client from `@/lib/supabase/client`
+- Server-side: `@/lib/supabase/server`
+- Types auto-generated in `@/types/database.ts`
+
+---
+
+## Git Workflow
+- **Branch**: `feature/player-profiles` (current)
+- **PR target**: `main`
+- **Commit style**: Conventional commits
+  - `feat: Add player list component`
+  - `fix: Correct level validation`
+  - `test: Add player card tests`
+  - `style: Update player card animations`
+
+---
+
+## Commands
+```bash
+npm run dev      # Start development (http://localhost:3000)
+npm run build    # Production build
+npm run lint     # ESLint check
+npm test         # Run tests (when configured)
+npm run test:e2e # Playwright E2E tests (when configured)
 ```
-src/
-├── app/
-│   ├── bookings/
-│   │   ├── page.tsx              # Main calendar page (server component)
-│   │   └── loading.tsx           # Loading skeleton
-│   └── courts/
-│       ├── page.tsx              # Court management page
-│       └── loading.tsx           # Loading skeleton
-├── components/
-│   ├── bookings/
-│   │   ├── BookingCalendar.tsx   # Main calendar container
-│   │   ├── CalendarHeader.tsx    # Week navigation + view controls
-│   │   ├── CalendarGrid.tsx      # Time slots grid with court columns
-│   │   ├── TimeColumn.tsx        # Left time axis (7:00 - 22:00)
-│   │   ├── CourtColumn.tsx       # Single court day column
-│   │   ├── BookingSlot.tsx       # Individual booking block
-│   │   ├── BookingForm.tsx       # Create/edit booking modal
-│   │   ├── BookingDetails.tsx    # Booking detail view
-│   │   ├── RecurringForm.tsx     # Recurring pattern configuration
-│   │   ├── ConflictIndicator.tsx # Visual conflict warning
-│   │   ├── TimeSlotPicker.tsx    # Time range selection
-│   │   └── BookingFilters.tsx    # Filter by type, court, coach
-│   ├── courts/
-│   │   ├── CourtList.tsx         # Court management list
-│   │   ├── CourtCard.tsx         # Individual court display
-│   │   └── CourtForm.tsx         # Create/edit court modal
-│   └── ui/
-│       ├── calendar/
-│       │   ├── WeekView.tsx      # Week calendar wrapper
-│       │   ├── DayView.tsx       # Single day mobile view
-│       │   └── DatePicker.tsx    # Date selection component
-│       └── ... (existing components)
-├── lib/
-│   ├── supabase/
-│   │   ├── client.ts             # Browser Supabase client
-│   │   └── server.ts             # Server Supabase client
-│   └── actions/
-│       ├── bookings.ts           # Booking server actions
-│       └── courts.ts             # Court server actions
-└── types/
-    ├── database.ts               # Supabase generated types
-    └── bookings.ts               # Booking-specific types
-```
 
-### Color Coding System
-```typescript
-// Booking type colors
-const BOOKING_COLORS = {
-  rental: {
-    bg: 'bg-emerald-100',
-    border: 'border-emerald-400',
-    text: 'text-emerald-800',
-    accent: 'bg-emerald-500'
-  },
-  group_class: {
-    bg: 'bg-purple-100',
-    border: 'border-purple-400',
-    text: 'text-purple-800',
-    accent: 'bg-purple-500'
-  },
-  private_lesson: {
-    bg: 'bg-amber-100',
-    border: 'border-amber-400',
-    text: 'text-amber-800',
-    accent: 'bg-amber-500'
-  }
-}
+---
 
-// Status colors
-const STATUS_COLORS = {
-  pending: 'border-dashed opacity-70',
-  confirmed: 'border-solid',
-  cancelled: 'opacity-40 line-through'
-}
-```
+## Quality Checklist
+Before marking any task complete:
 
-### Key Interactions
-1. **Click empty slot** → Opens booking form with pre-filled time/court
-2. **Click existing booking** → Opens booking details panel
-3. **Double-click booking** → Opens edit form
-4. **Drag booking edge** → Resize duration (with conflict check)
-5. **Drag booking body** → Move to different slot (with conflict check)
-6. **Right-click booking** → Context menu (edit, duplicate, cancel, delete)
+- [ ] Code compiles without errors (`npm run build`)
+- [ ] No linting errors (`npm run lint`)
+- [ ] Translations added for ES and EN
+- [ ] Responsive design tested (mobile, tablet, desktop)
+- [ ] Loading states implemented
+- [ ] Error states handled
+- [ ] Accessibility basics (labels, focus states, contrast)
+- [ ] Tests written and passing
+- [ ] Code reviewed (use `code-reviewer` agent)
+- [ ] Security reviewed for user input (use `security-guardian` agent)
 
-### Recurring Booking Patterns (JSONB)
-```typescript
-interface RecurringPattern {
-  frequency: 'daily' | 'weekly' | 'biweekly' | 'monthly'
-  daysOfWeek?: number[]  // 0-6 for weekly patterns
-  endDate?: string       // ISO date
-  occurrences?: number   // Max occurrences
-  exceptions?: string[]  // Skip dates
-}
-```
+---
 
-### Conflict Detection Rules
-1. No overlapping bookings on same court
-2. Coach cannot have overlapping sessions
-3. Group cannot have overlapping sessions
-4. Player cannot be in two places at once (warning only)
+## Agent Workflow Examples
 
-### Testing Strategy
-- **Unit Tests**: Utility functions (time calculations, conflict detection)
-- **Component Tests**: Calendar rendering, interaction handlers
-- **Integration Tests**: Booking CRUD operations
-- **E2E Tests**: Full booking flow (Playwright recommended)
+### Creating a New Component
+1. **Plan**: Use `feature-dev:code-architect` to design component structure
+2. **Implement**: Use `frontend-design` plugin for impressive UI
+3. **Review**: Use `code-reviewer` agent to check quality
+4. **Test**: Use `test-strategist` agent to create tests
+5. **Verify**: Use Playwright to test in browser
 
-### Performance Considerations
-- Use React Server Components for initial data fetch
-- Implement optimistic updates for booking actions
-- Virtual scrolling for large time ranges
-- Debounce drag operations
-- Cache booking data per week
+### Database Changes
+1. **Design**: Use `database-architect` for schema changes
+2. **Implement**: Create migration file
+3. **Review**: Use `security-guardian` for data validation
+4. **Test**: Verify with database queries
 
-### Accessibility Requirements
-- Full keyboard navigation (Arrow keys, Tab, Enter, Escape)
-- ARIA labels for all interactive elements
-- High contrast mode support
-- Focus management in modals
-- Screen reader announcements for actions
-
-### Agent & Tool Recommendations
-- **Explore Agent**: Use for discovering patterns in similar calendar implementations
-- **Plan Agent**: Use for complex architectural decisions
-- **Code Review**: Manual review after each major component
+### Full Feature Implementation
+1. **Explore**: Use `feature-dev:code-explorer` to understand codebase
+2. **Architect**: Use `feature-dev:code-architect` for blueprint
+3. **Database**: Use `database-architect` if needed
+4. **Backend**: Use `backend-service-architect` for APIs
+5. **Frontend**: Use `frontend-architect` + `frontend-design` for UI
+6. **Security**: Use `security-guardian` for review
+7. **Test**: Use `test-strategist` for comprehensive tests
+8. **Review**: Use `feature-dev:code-reviewer` for final check

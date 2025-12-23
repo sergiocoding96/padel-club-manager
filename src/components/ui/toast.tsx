@@ -4,11 +4,12 @@ import { useState, useEffect, createContext, useContext, useCallback, ReactNode 
 import { X, CheckCircle, AlertCircle, AlertTriangle, Info } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-type ToastType = 'success' | 'error' | 'warning' | 'info'
+export type ToastType = 'success' | 'error' | 'warning' | 'info'
 
 type Toast = {
   id: string
   type: ToastType
+  title?: string
   message: string
   duration?: number
 }
@@ -60,7 +61,10 @@ type ToastContainerProps = {
 
 function ToastContainer({ toasts, removeToast }: ToastContainerProps) {
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
+    <div
+      aria-live="assertive"
+      className="pointer-events-none fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2"
+    >
       {toasts.map((toast) => (
         <ToastItem key={toast.id} toast={toast} onClose={() => removeToast(toast.id)} />
       ))}
@@ -76,9 +80,9 @@ type ToastItemProps = {
 const toastConfig: Record<ToastType, { icon: typeof CheckCircle; bg: string; border: string; text: string }> = {
   success: {
     icon: CheckCircle,
-    bg: 'bg-green-50',
-    border: 'border-green-200',
-    text: 'text-green-800',
+    bg: 'bg-emerald-50',
+    border: 'border-emerald-200',
+    text: 'text-emerald-800',
   },
   error: {
     icon: AlertCircle,
@@ -101,32 +105,48 @@ const toastConfig: Record<ToastType, { icon: typeof CheckCircle; bg: string; bor
 }
 
 function ToastItem({ toast, onClose }: ToastItemProps) {
+  const [isVisible, setIsVisible] = useState(false)
+  const [isLeaving, setIsLeaving] = useState(false)
   const config = toastConfig[toast.type]
   const Icon = config.icon
 
+  const handleClose = useCallback(() => {
+    setIsLeaving(true)
+    setTimeout(onClose, 300)
+  }, [onClose])
+
   useEffect(() => {
+    requestAnimationFrame(() => {
+      setIsVisible(true)
+    })
+
     if (toast.duration) {
-      const timer = setTimeout(onClose, toast.duration)
+      const timer = setTimeout(handleClose, toast.duration)
       return () => clearTimeout(timer)
     }
-  }, [toast.duration, onClose])
+  }, [toast.duration, handleClose])
 
   return (
     <div
+      role="alert"
       className={cn(
-        'flex items-center gap-3 px-4 py-3 rounded-lg border shadow-lg min-w-[300px] max-w-md',
-        'animate-in slide-in-from-right-full duration-300',
+        'pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-lg border shadow-lg min-w-[300px] max-w-md transition-all duration-300 ease-out',
         config.bg,
-        config.border
+        config.border,
+        isVisible && !isLeaving ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
       )}
     >
       <Icon className={cn('w-5 h-5 shrink-0', config.text)} />
-      <p className={cn('flex-1 text-sm font-medium', config.text)}>{toast.message}</p>
+      <div className="flex-1 min-w-0">
+        {toast.title && <p className={cn('text-sm font-medium', config.text)}>{toast.title}</p>}
+        <p className={cn('text-sm', toast.title ? 'opacity-80' : 'font-medium', config.text)}>{toast.message}</p>
+      </div>
       <button
-        onClick={onClose}
-        className={cn('p-1 rounded hover:bg-black/5 transition-colors', config.text)}
+        onClick={handleClose}
+        className={cn('p-1 rounded hover:bg-black/5 transition-colors flex-shrink-0', config.text)}
       >
         <X className="w-4 h-4" />
+        <span className="sr-only">Close</span>
       </button>
     </div>
   )

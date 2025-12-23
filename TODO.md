@@ -633,11 +633,44 @@ This document contains the complete development plan for the Player Profiles fea
 
 ---
 
-## Notes
+## Development Workflow Notes
 
+<<<<<<< HEAD
 - Each task with a **Test:** annotation must have tests before being marked complete
 - Use the `frontend-design` plugin for ALL visible UI components
 - Run `npm run lint` and `npm run build` frequently
 - Commit after each completed section
 - Update translations in both `es.json` and `en.json` as you build
 - Screenshot key UI states for PR documentation
+=======
+### Using Agents
+- **Explore Agent**: Use for understanding existing code patterns before implementing
+- **Plan Agent**: Use for complex architectural decisions (e.g., drag-and-drop library choice)
+- **Code Review**: Perform after each numbered task section
+
+### Testing Checklist (per task)
+1. Component renders without errors
+2. All props are typed correctly
+3. Accessibility attributes present
+4. Responsive on mobile/desktop
+5. i18n keys all resolve
+6. Edge cases handled (empty, loading, error)
+
+### Code Review Checklist (per section)
+1. TypeScript strict mode passes
+2. No any types without justification
+3. Components follow project patterns
+4. Tailwind classes use cn() utility
+5. All user-facing text uses translations
+6. No console.logs or debug code
+7. Error boundaries in place
+8. Loading and empty states exist
+
+---
+
+## Legend
+- [ ] Not started
+- [x] Completed
+- ✅ **Test** - Testing task
+- 🔍 **Code Review** - Review task
+>>>>>>> origin/main

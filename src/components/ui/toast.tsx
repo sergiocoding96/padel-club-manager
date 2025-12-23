@@ -1,113 +1,165 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
-import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react'
+import { useState, useEffect, createContext, useContext, useCallback, ReactNode } from 'react'
+import { X, CheckCircle, AlertCircle, AlertTriangle, Info } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-export type ToastType = 'success' | 'error' | 'info' | 'warning'
+export type ToastType = 'success' | 'error' | 'warning' | 'info'
 
-export interface ToastProps {
+type Toast = {
   id: string
   type: ToastType
-  title: string
-  message?: string
+  title?: string
+  message: string
   duration?: number
-  onClose: (id: string) => void
 }
 
-const iconMap = {
-  success: CheckCircle,
-  error: AlertCircle,
-  info: Info,
-  warning: AlertTriangle,
+type ToastContextType = {
+  toasts: Toast[]
+  addToast: (type: ToastType, message: string, duration?: number) => void
+  removeToast: (id: string) => void
 }
 
-const styleMap = {
-  success: 'bg-emerald-50 border-emerald-200 text-emerald-800',
-  error: 'bg-red-50 border-red-200 text-red-800',
-  info: 'bg-blue-50 border-blue-200 text-blue-800',
-  warning: 'bg-amber-50 border-amber-200 text-amber-800',
+const ToastContext = createContext<ToastContextType | null>(null)
+
+export function useToast() {
+  const context = useContext(ToastContext)
+  if (!context) {
+    throw new Error('useToast must be used within a ToastProvider')
+  }
+  return context
 }
 
-const iconStyleMap = {
-  success: 'text-emerald-500',
-  error: 'text-red-500',
-  info: 'text-blue-500',
-  warning: 'text-amber-500',
+type ToastProviderProps = {
+  children: ReactNode
 }
 
-export function Toast({ id, type, title, message, duration = 5000, onClose }: ToastProps) {
+export function ToastProvider({ children }: ToastProviderProps) {
+  const [toasts, setToasts] = useState<Toast[]>([])
+
+  const addToast = useCallback((type: ToastType, message: string, duration = 4000) => {
+    const id = Math.random().toString(36).substring(2, 9)
+    setToasts((prev) => [...prev, { id, type, message, duration }])
+  }, [])
+
+  const removeToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((toast) => toast.id !== id))
+  }, [])
+
+  return (
+    <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
+      {children}
+      <ToastContainer toasts={toasts} removeToast={removeToast} />
+    </ToastContext.Provider>
+  )
+}
+
+type ToastContainerProps = {
+  toasts: Toast[]
+  removeToast: (id: string) => void
+}
+
+function ToastContainer({ toasts, removeToast }: ToastContainerProps) {
+  return (
+    <div
+      aria-live="assertive"
+      className="pointer-events-none fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2"
+    >
+      {toasts.map((toast) => (
+        <ToastItem key={toast.id} toast={toast} onClose={() => removeToast(toast.id)} />
+      ))}
+    </div>
+  )
+}
+
+type ToastItemProps = {
+  toast: Toast
+  onClose: () => void
+}
+
+const toastConfig: Record<ToastType, { icon: typeof CheckCircle; bg: string; border: string; text: string }> = {
+  success: {
+    icon: CheckCircle,
+    bg: 'bg-emerald-50',
+    border: 'border-emerald-200',
+    text: 'text-emerald-800',
+  },
+  error: {
+    icon: AlertCircle,
+    bg: 'bg-red-50',
+    border: 'border-red-200',
+    text: 'text-red-800',
+  },
+  warning: {
+    icon: AlertTriangle,
+    bg: 'bg-amber-50',
+    border: 'border-amber-200',
+    text: 'text-amber-800',
+  },
+  info: {
+    icon: Info,
+    bg: 'bg-blue-50',
+    border: 'border-blue-200',
+    text: 'text-blue-800',
+  },
+}
+
+function ToastItem({ toast, onClose }: ToastItemProps) {
   const [isVisible, setIsVisible] = useState(false)
   const [isLeaving, setIsLeaving] = useState(false)
-
-  const Icon = iconMap[type]
+  const config = toastConfig[toast.type]
+  const Icon = config.icon
 
   const handleClose = useCallback(() => {
     setIsLeaving(true)
-    setTimeout(() => {
-      onClose(id)
-    }, 300)
-  }, [id, onClose])
+    setTimeout(onClose, 300)
+  }, [onClose])
 
   useEffect(() => {
-    // Trigger enter animation
     requestAnimationFrame(() => {
       setIsVisible(true)
     })
 
-    // Auto dismiss
-    const timer = setTimeout(() => {
-      handleClose()
-    }, duration)
-
-    return () => clearTimeout(timer)
-  }, [duration, handleClose])
+    if (toast.duration) {
+      const timer = setTimeout(handleClose, toast.duration)
+      return () => clearTimeout(timer)
+    }
+  }, [toast.duration, handleClose])
 
   return (
     <div
+      role="alert"
       className={cn(
-        'pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg border shadow-lg transition-all duration-300 ease-out',
-        styleMap[type],
+        'pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-lg border shadow-lg min-w-[300px] max-w-md transition-all duration-300 ease-out',
+        config.bg,
+        config.border,
         isVisible && !isLeaving ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
       )}
-      role="alert"
     >
-      <div className="p-4">
-        <div className="flex items-start gap-3">
-          <Icon className={cn('h-5 w-5 flex-shrink-0 mt-0.5', iconStyleMap[type])} />
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium">{title}</p>
-            {message && (
-              <p className="mt-1 text-sm opacity-80">{message}</p>
-            )}
-          </div>
-          <button
-            onClick={handleClose}
-            className="flex-shrink-0 rounded-md p-1 hover:bg-black/5 transition-colors"
-          >
-            <X className="h-4 w-4" />
-            <span className="sr-only">Close</span>
-          </button>
-        </div>
+      <Icon className={cn('w-5 h-5 shrink-0', config.text)} />
+      <div className="flex-1 min-w-0">
+        {toast.title && <p className={cn('text-sm font-medium', config.text)}>{toast.title}</p>}
+        <p className={cn('text-sm', toast.title ? 'opacity-80' : 'font-medium', config.text)}>{toast.message}</p>
       </div>
+      <button
+        onClick={handleClose}
+        className={cn('p-1 rounded hover:bg-black/5 transition-colors flex-shrink-0', config.text)}
+      >
+        <X className="w-4 h-4" />
+        <span className="sr-only">Close</span>
+      </button>
     </div>
   )
 }
 
-export interface ToastContainerProps {
-  toasts: Array<Omit<ToastProps, 'onClose'>>
-  onClose: (id: string) => void
-}
+// Helper hook for common toast actions
+export function useBookingToasts() {
+  const { addToast } = useToast()
 
-export function ToastContainer({ toasts, onClose }: ToastContainerProps) {
-  return (
-    <div
-      aria-live="assertive"
-      className="pointer-events-none fixed inset-0 z-50 flex flex-col items-end justify-start gap-2 p-4 sm:p-6"
-    >
-      {toasts.map((toast) => (
-        <Toast key={toast.id} {...toast} onClose={onClose} />
-      ))}
-    </div>
-  )
+  return {
+    showSuccess: (message: string) => addToast('success', message),
+    showError: (message: string) => addToast('error', message),
+    showWarning: (message: string) => addToast('warning', message),
+    showInfo: (message: string) => addToast('info', message),
+  }
 }

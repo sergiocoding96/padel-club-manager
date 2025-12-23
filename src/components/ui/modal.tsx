@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef, useId } from 'react'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -22,17 +22,35 @@ const sizeStyles = {
 }
 
 export function Modal({ isOpen, onClose, title, description, children, size = 'md', showClose = true }: ModalProps) {
+  const modalRef = useRef<HTMLDivElement>(null)
+  const previousActiveElement = useRef<HTMLElement | null>(null)
+  const titleId = useId()
+  const descriptionId = useId()
+
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
     if (isOpen) {
+      // Store the previously focused element
+      previousActiveElement.current = document.activeElement as HTMLElement
+
       document.addEventListener('keydown', handleEscape)
       document.body.style.overflow = 'hidden'
+
+      // Focus the modal
+      setTimeout(() => {
+        modalRef.current?.focus()
+      }, 0)
     }
     return () => {
       document.removeEventListener('keydown', handleEscape)
       document.body.style.overflow = 'unset'
+
+      // Restore focus to the previously focused element
+      if (previousActiveElement.current) {
+        previousActiveElement.current.focus()
+      }
     }
   }, [isOpen, onClose])
 
@@ -40,17 +58,38 @@ export function Modal({ isOpen, onClose, title, description, children, size = 'm
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto animate-fade-in">
-      <div className="fixed inset-0 bg-black/50 transition-opacity" onClick={onClose} />
+      <div
+        className="fixed inset-0 bg-black/50 transition-opacity"
+        onClick={onClose}
+        aria-hidden="true"
+      />
       <div className="flex min-h-full items-center justify-center p-4">
-        <div className={cn('relative w-full bg-white rounded-xl shadow-xl transform transition-all animate-scale-in', sizeStyles[size])} onClick={(e) => e.stopPropagation()}>
+        <div
+          ref={modalRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={title ? titleId : undefined}
+          aria-describedby={description ? descriptionId : undefined}
+          tabIndex={-1}
+          className={cn(
+            'relative w-full bg-white rounded-xl shadow-xl transform transition-all animate-scale-in',
+            'focus:outline-none',
+            sizeStyles[size]
+          )}
+          onClick={(e) => e.stopPropagation()}
+        >
           {(title || showClose) && (
             <div className="flex items-start justify-between p-6 border-b border-stone-200">
               <div>
-                {title && <h2 className="text-lg font-semibold text-stone-800">{title}</h2>}
-                {description && <p className="mt-1 text-sm text-stone-500">{description}</p>}
+                {title && <h2 id={titleId} className="text-lg font-semibold text-stone-800">{title}</h2>}
+                {description && <p id={descriptionId} className="mt-1 text-sm text-stone-500">{description}</p>}
               </div>
               {showClose && (
-                <button onClick={onClose} className="p-1 text-stone-400 hover:text-stone-600 transition-colors">
+                <button
+                  onClick={onClose}
+                  className="p-1 text-stone-400 hover:text-stone-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+                  aria-label="Close modal"
+                >
                   <X className="w-5 h-5" />
                 </button>
               )}

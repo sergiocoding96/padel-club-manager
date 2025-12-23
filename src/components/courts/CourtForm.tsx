@@ -1,201 +1,202 @@
 'use client'
 
-import { useState } from 'react'
-import { Modal } from '@/components/ui/modal'
-import { Input, Textarea } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Building2, Trees } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
-import type { Court } from '@/types/database'
-import type { CourtFormData } from '@/lib/actions/courts'
+import { Input, Select, Textarea } from '@/components/ui'
+import type { Court, CourtSurfaceType, CourtStatus } from '@/types/database'
 
-type CourtFormProps = {
-  isOpen: boolean
-  onClose: () => void
-  onSubmit: (data: CourtFormData) => Promise<void>
+interface CourtFormProps {
   court?: Court | null
-  translations: {
-    addCourt: string
-    editCourt: string
-    name: string
-    surface: string
-    indoor: string
-    outdoor: string
-    location: string
-    status: string
-    available: string
-    maintenance: string
-    reserved: string
-    save: string
-    cancel: string
-    namePlaceholder?: string
-    locationPlaceholder?: string
-  }
+  errors?: Record<string, string>
+  isPending?: boolean
+  onSubmit: (formData: FormData) => void
+  onCancel: () => void
 }
 
-const statusOptions: { value: Court['status']; labelKey: keyof CourtFormProps['translations'] }[] = [
-  { value: 'available', labelKey: 'available' },
-  { value: 'maintenance', labelKey: 'maintenance' },
-  { value: 'reserved', labelKey: 'reserved' },
-]
+export function CourtForm({
+  court,
+  errors,
+  isPending = false,
+  onSubmit,
+  onCancel,
+}: CourtFormProps) {
+  const t = useTranslations('courts')
+  const tCommon = useTranslations('common')
+  const formRef = useRef<HTMLFormElement>(null)
+  const nameInputRef = useRef<HTMLInputElement>(null)
 
-export function CourtForm({ isOpen, onClose, onSubmit, court, translations }: CourtFormProps) {
-  const isEdit = !!court
+  // Focus name input on mount
+  useEffect(() => {
+    nameInputRef.current?.focus()
+  }, [])
 
-  const [name, setName] = useState(court?.name ?? '')
-  const [surfaceType, setSurfaceType] = useState<'indoor' | 'outdoor' | null>(court?.surface_type ?? null)
-  const [location, setLocation] = useState(court?.location ?? '')
-  const [status, setStatus] = useState<Court['status']>(court?.status ?? 'available')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const surfaceTypeOptions: { value: CourtSurfaceType | ''; label: string }[] = [
+    { value: '', label: t('selectSurfaceType') },
+    { value: 'indoor', label: t('indoor') },
+    { value: 'outdoor', label: t('outdoor') },
+  ]
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const statusOptions: { value: CourtStatus; label: string }[] = [
+    { value: 'available', label: t('available') },
+    { value: 'maintenance', label: t('maintenance') },
+    { value: 'reserved', label: t('reserved') },
+  ]
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setError('')
-
-    if (!name.trim()) {
-      setError('Name is required')
-      return
-    }
-
-    setLoading(true)
-    try {
-      await onSubmit({
-        name: name.trim(),
-        surface_type: surfaceType,
-        location: location.trim() || null,
-        status,
-      })
-      handleClose()
-    } catch {
-      setError('Failed to save court')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handleClose = () => {
-    setName(court?.name ?? '')
-    setSurfaceType(court?.surface_type ?? null)
-    setLocation(court?.location ?? '')
-    setStatus(court?.status ?? 'available')
-    setError('')
-    onClose()
+    const formData = new FormData(e.currentTarget)
+    onSubmit(formData)
   }
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={handleClose}
-      title={isEdit ? translations.editCourt : translations.addCourt}
-      size="md"
+    <form
+      ref={formRef}
+      onSubmit={handleSubmit}
+      className="space-y-5"
     >
-      <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Name */}
+      {/* Court Name */}
+      <div className="space-y-1.5">
+        <label
+          htmlFor="name"
+          className="block text-sm font-medium text-stone-700"
+        >
+          {t('name')} <span className="text-rose-500">*</span>
+        </label>
         <Input
-          label={translations.name}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder={translations.namePlaceholder ?? 'Court 1'}
-          error={error && !name.trim() ? error : undefined}
-          required
+          ref={nameInputRef}
+          id="name"
+          name="name"
+          type="text"
+          defaultValue={court?.name ?? ''}
+          placeholder={t('namePlaceholder')}
+          disabled={isPending}
+          className={cn(errors?.name && 'border-rose-300 focus:ring-rose-500')}
         />
-
-        {/* Surface Type */}
-        <div>
-          <label className="block text-sm font-medium text-stone-700 mb-2">
-            {translations.surface}
-          </label>
-          <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={() => setSurfaceType('indoor')}
-              className={cn(
-                'flex-1 flex items-center justify-center gap-2 p-4 rounded-lg border-2 transition-all',
-                surfaceType === 'indoor'
-                  ? 'border-blue-500 bg-blue-50 text-blue-700'
-                  : 'border-stone-200 hover:border-stone-300 text-stone-600'
-              )}
-            >
-              <Building2 className="w-5 h-5" />
-              <span className="font-medium">{translations.indoor}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setSurfaceType('outdoor')}
-              className={cn(
-                'flex-1 flex items-center justify-center gap-2 p-4 rounded-lg border-2 transition-all',
-                surfaceType === 'outdoor'
-                  ? 'border-green-500 bg-green-50 text-green-700'
-                  : 'border-stone-200 hover:border-stone-300 text-stone-600'
-              )}
-            >
-              <Trees className="w-5 h-5" />
-              <span className="font-medium">{translations.outdoor}</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Location */}
-        <Input
-          label={translations.location}
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder={translations.locationPlaceholder ?? 'Building A, Floor 1'}
-        />
-
-        {/* Status */}
-        <div>
-          <label className="block text-sm font-medium text-stone-700 mb-2">
-            {translations.status}
-          </label>
-          <div className="flex gap-2">
-            {statusOptions.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => setStatus(option.value)}
-                className={cn(
-                  'px-4 py-2 rounded-lg text-sm font-medium transition-all',
-                  status === option.value
-                    ? option.value === 'available'
-                      ? 'bg-green-100 text-green-700 border-2 border-green-500'
-                      : option.value === 'maintenance'
-                      ? 'bg-amber-100 text-amber-700 border-2 border-amber-500'
-                      : 'bg-red-100 text-red-700 border-2 border-red-500'
-                    : 'bg-stone-100 text-stone-600 border-2 border-transparent hover:bg-stone-200'
-                )}
-              >
-                {translations[option.labelKey]}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Error Message */}
-        {error && name.trim() && (
-          <p className="text-sm text-red-600">{error}</p>
+        {errors?.name && (
+          <p className="text-sm text-rose-600">{errors.name}</p>
         )}
+      </div>
 
-        {/* Actions */}
-        <div className="flex gap-3 pt-2">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleClose}
-            className="flex-1"
-          >
-            {translations.cancel}
-          </Button>
-          <Button
-            type="submit"
-            loading={loading}
-            className="flex-1"
-          >
-            {translations.save}
-          </Button>
-        </div>
-      </form>
-    </Modal>
+      {/* Surface Type */}
+      <div className="space-y-1.5">
+        <label
+          htmlFor="surface_type"
+          className="block text-sm font-medium text-stone-700"
+        >
+          {t('surfaceType')}
+        </label>
+        <Select
+          id="surface_type"
+          name="surface_type"
+          defaultValue={court?.surface_type ?? ''}
+          disabled={isPending}
+          options={surfaceTypeOptions}
+          className={cn(errors?.surface_type && 'border-rose-300 focus:ring-rose-500')}
+        />
+        {errors?.surface_type && (
+          <p className="text-sm text-rose-600">{errors.surface_type}</p>
+        )}
+      </div>
+
+      {/* Location */}
+      <div className="space-y-1.5">
+        <label
+          htmlFor="location"
+          className="block text-sm font-medium text-stone-700"
+        >
+          {t('location')}
+        </label>
+        <Input
+          id="location"
+          name="location"
+          type="text"
+          defaultValue={court?.location ?? ''}
+          placeholder={t('locationPlaceholder')}
+          disabled={isPending}
+          className={cn(errors?.location && 'border-rose-300 focus:ring-rose-500')}
+        />
+        {errors?.location && (
+          <p className="text-sm text-rose-600">{errors.location}</p>
+        )}
+      </div>
+
+      {/* Status */}
+      <div className="space-y-1.5">
+        <label
+          htmlFor="status"
+          className="block text-sm font-medium text-stone-700"
+        >
+          {t('status')}
+        </label>
+        <Select
+          id="status"
+          name="status"
+          defaultValue={court?.status ?? 'available'}
+          disabled={isPending}
+          options={statusOptions}
+          className={cn(errors?.status && 'border-rose-300 focus:ring-rose-500')}
+        />
+        {errors?.status && (
+          <p className="text-sm text-rose-600">{errors.status}</p>
+        )}
+      </div>
+
+      {/* Form Actions */}
+      <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
+        <button
+          type="button"
+          onClick={onCancel}
+          disabled={isPending}
+          className={cn(
+            'px-4 py-2.5 rounded-xl text-sm font-medium',
+            'text-stone-600 hover:text-stone-800',
+            'bg-stone-100 hover:bg-stone-200',
+            'transition-colors duration-200',
+            'focus:outline-none focus:ring-2 focus:ring-stone-500/30',
+            'disabled:opacity-50 disabled:cursor-not-allowed'
+          )}
+        >
+          {tCommon('cancel')}
+        </button>
+        <button
+          type="submit"
+          disabled={isPending}
+          className={cn(
+            'px-5 py-2.5 rounded-xl text-sm font-medium',
+            'text-white bg-blue-600 hover:bg-blue-700',
+            'shadow-sm hover:shadow-md',
+            'transition-all duration-200',
+            'focus:outline-none focus:ring-2 focus:ring-blue-500/30',
+            'disabled:opacity-50 disabled:cursor-not-allowed',
+            'flex items-center gap-2'
+          )}
+        >
+          {isPending && (
+            <svg
+              className="animate-spin h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              />
+            </svg>
+          )}
+          {court ? tCommon('save') : tCommon('create')}
+        </button>
+      </div>
+    </form>
   )
 }

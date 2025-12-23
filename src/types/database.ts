@@ -1,6 +1,3 @@
-// Database types for Supabase
-// Generated from schema: supabase/migrations/001_initial_schema.sql
-
 export type Json =
   | string
   | number
@@ -9,294 +6,179 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+// Court types
+export type CourtSurfaceType = 'indoor' | 'outdoor'
+export type CourtStatus = 'available' | 'maintenance' | 'reserved'
+
+export interface Court {
+  id: string
+  name: string
+  surface_type: CourtSurfaceType | null
+  location: string | null
+  status: CourtStatus
+  created_at: string
+  updated_at: string
+}
+
+export interface CourtInsert {
+  id?: string
+  name: string
+  surface_type?: CourtSurfaceType | null
+  location?: string | null
+  status?: CourtStatus
+}
+
+export interface CourtUpdate {
+  name?: string
+  surface_type?: CourtSurfaceType | null
+  location?: string | null
+  status?: CourtStatus
+}
+
+// Player types
+export type PlayerStatus = 'active' | 'inactive' | 'suspended'
+
+export interface Player {
+  id: string
+  name: string
+  email: string | null
+  phone: string | null
+  level_numeric: number | null
+  level_category: string | null
+  status: PlayerStatus
+  notes: string | null
+  objectives: string | null
+  created_at: string
+  updated_at: string
+}
+
+// Coach types
+export type CoachStatus = 'active' | 'inactive'
+
+export interface Coach {
+  id: string
+  name: string
+  email: string | null
+  phone: string | null
+  role: string
+  color_code: string | null
+  status: CoachStatus
+  created_at: string
+  updated_at: string
+}
+
+// Group types
+export type GroupStatus = 'active' | 'inactive'
+
+export interface Group {
+  id: string
+  name: string
+  level_min: number | null
+  level_max: number | null
+  coach_id: string | null
+  max_players: number
+  schedule_template: Json | null
+  status: GroupStatus
+  created_at: string
+  updated_at: string
+}
+
+// Booking types
+export type BookingType = 'rental' | 'group_class' | 'private_lesson'
+export type BookingStatus = 'pending' | 'confirmed' | 'cancelled'
+
+export interface Booking {
+  id: string
+  court_id: string
+  date: string
+  start_time: string
+  end_time: string
+  booking_type: BookingType
+  group_id: string | null
+  player_id: string | null
+  coach_id: string | null
+  is_recurring: boolean
+  recurring_pattern: Json | null
+  notes: string | null
+  status: BookingStatus
+  created_at: string
+  updated_at: string
+}
+
+// Attendance types
+export type AttendanceStatus = 'pending' | 'present' | 'absent' | 'late'
+
+export interface Attendance {
+  id: string
+  booking_id: string
+  player_id: string
+  status: AttendanceStatus
+  marked_by: string | null
+  marked_at: string | null
+  notes: string | null
+}
+
+// User profile types
+export type UserRole = 'admin' | 'coach' | 'player'
+
+export interface UserProfile {
+  id: string
+  email: string | null
+  full_name: string | null
+  role: UserRole
+  player_id: string | null
+  coach_id: string | null
+  avatar_url: string | null
+  locale: string
+  created_at: string
+  updated_at: string
+}
+
+// Database type for Supabase client (compatible with @supabase/supabase-js v2)
 export type Database = {
   public: {
     Tables: {
+      courts: {
+        Row: Court
+        Insert: CourtInsert
+        Update: CourtUpdate
+        Relationships: []
+      }
       players: {
-        Row: {
-          id: string
-          name: string
-          email: string | null
-          phone: string | null
-          level_numeric: number | null
-          level_category: string | null
-          status: 'active' | 'inactive' | 'suspended'
-          notes: string | null
-          objectives: string | null
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          email?: string | null
-          phone?: string | null
-          level_numeric?: number | null
-          level_category?: string | null
-          status?: 'active' | 'inactive' | 'suspended'
-          notes?: string | null
-          objectives?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          email?: string | null
-          phone?: string | null
-          level_numeric?: number | null
-          level_category?: string | null
-          status?: 'active' | 'inactive' | 'suspended'
-          notes?: string | null
-          objectives?: string | null
-          created_at?: string
-          updated_at?: string
-        }
+        Row: Player
+        Insert: Omit<Player, 'id' | 'created_at' | 'updated_at'>
+        Update: Partial<Omit<Player, 'id' | 'created_at' | 'updated_at'>>
+        Relationships: []
       }
       coaches: {
-        Row: {
-          id: string
-          name: string
-          email: string | null
-          phone: string | null
-          role: string
-          color_code: string | null
-          status: 'active' | 'inactive'
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          email?: string | null
-          phone?: string | null
-          role?: string
-          color_code?: string | null
-          status?: 'active' | 'inactive'
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          email?: string | null
-          phone?: string | null
-          role?: string
-          color_code?: string | null
-          status?: 'active' | 'inactive'
-          created_at?: string
-          updated_at?: string
-        }
-      }
-      courts: {
-        Row: {
-          id: string
-          name: string
-          surface_type: 'indoor' | 'outdoor' | null
-          location: string | null
-          status: 'available' | 'maintenance' | 'reserved'
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          surface_type?: 'indoor' | 'outdoor' | null
-          location?: string | null
-          status?: 'available' | 'maintenance' | 'reserved'
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          surface_type?: 'indoor' | 'outdoor' | null
-          location?: string | null
-          status?: 'available' | 'maintenance' | 'reserved'
-          created_at?: string
-          updated_at?: string
-        }
+        Row: Coach
+        Insert: Omit<Coach, 'id' | 'created_at' | 'updated_at'>
+        Update: Partial<Omit<Coach, 'id' | 'created_at' | 'updated_at'>>
+        Relationships: []
       }
       groups: {
-        Row: {
-          id: string
-          name: string
-          level_min: number | null
-          level_max: number | null
-          coach_id: string | null
-          max_players: number
-          schedule_template: Json | null
-          status: 'active' | 'inactive'
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          level_min?: number | null
-          level_max?: number | null
-          coach_id?: string | null
-          max_players?: number
-          schedule_template?: Json | null
-          status?: 'active' | 'inactive'
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          level_min?: number | null
-          level_max?: number | null
-          coach_id?: string | null
-          max_players?: number
-          schedule_template?: Json | null
-          status?: 'active' | 'inactive'
-          created_at?: string
-          updated_at?: string
-        }
-      }
-      group_players: {
-        Row: {
-          id: string
-          group_id: string
-          player_id: string
-          joined_at: string
-          status: 'active' | 'inactive'
-        }
-        Insert: {
-          id?: string
-          group_id: string
-          player_id: string
-          joined_at?: string
-          status?: 'active' | 'inactive'
-        }
-        Update: {
-          id?: string
-          group_id?: string
-          player_id?: string
-          joined_at?: string
-          status?: 'active' | 'inactive'
-        }
+        Row: Group
+        Insert: Omit<Group, 'id' | 'created_at' | 'updated_at'>
+        Update: Partial<Omit<Group, 'id' | 'created_at' | 'updated_at'>>
+        Relationships: []
       }
       bookings: {
-        Row: {
-          id: string
-          court_id: string
-          date: string
-          start_time: string
-          end_time: string
-          booking_type: 'rental' | 'group_class' | 'private_lesson'
-          group_id: string | null
-          player_id: string | null
-          coach_id: string | null
-          is_recurring: boolean
-          recurring_pattern: Json | null
-          notes: string | null
-          status: 'pending' | 'confirmed' | 'cancelled'
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          court_id: string
-          date: string
-          start_time: string
-          end_time: string
-          booking_type: 'rental' | 'group_class' | 'private_lesson'
-          group_id?: string | null
-          player_id?: string | null
-          coach_id?: string | null
-          is_recurring?: boolean
-          recurring_pattern?: Json | null
-          notes?: string | null
-          status?: 'pending' | 'confirmed' | 'cancelled'
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          court_id?: string
-          date?: string
-          start_time?: string
-          end_time?: string
-          booking_type?: 'rental' | 'group_class' | 'private_lesson'
-          group_id?: string | null
-          player_id?: string | null
-          coach_id?: string | null
-          is_recurring?: boolean
-          recurring_pattern?: Json | null
-          notes?: string | null
-          status?: 'pending' | 'confirmed' | 'cancelled'
-          created_at?: string
-          updated_at?: string
-        }
+        Row: Booking
+        Insert: Omit<Booking, 'id' | 'created_at' | 'updated_at'>
+        Update: Partial<Omit<Booking, 'id' | 'created_at' | 'updated_at'>>
+        Relationships: []
       }
       attendance: {
-        Row: {
-          id: string
-          booking_id: string
-          player_id: string
-          status: 'pending' | 'present' | 'absent' | 'late'
-          marked_by: string | null
-          marked_at: string | null
-          notes: string | null
-        }
-        Insert: {
-          id?: string
-          booking_id: string
-          player_id: string
-          status?: 'pending' | 'present' | 'absent' | 'late'
-          marked_by?: string | null
-          marked_at?: string | null
-          notes?: string | null
-        }
-        Update: {
-          id?: string
-          booking_id?: string
-          player_id?: string
-          status?: 'pending' | 'present' | 'absent' | 'late'
-          marked_by?: string | null
-          marked_at?: string | null
-          notes?: string | null
-        }
+        Row: Attendance
+        Insert: Omit<Attendance, 'id'>
+        Update: Partial<Omit<Attendance, 'id'>>
+        Relationships: []
       }
       user_profiles: {
-        Row: {
-          id: string
-          email: string
-          full_name: string | null
-          role: 'admin' | 'coach' | 'player'
-          player_id: string | null
-          coach_id: string | null
-          avatar_url: string | null
-          locale: string
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id: string
-          email: string
-          full_name?: string | null
-          role: 'admin' | 'coach' | 'player'
-          player_id?: string | null
-          coach_id?: string | null
-          avatar_url?: string | null
-          locale?: string
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          email?: string
-          full_name?: string | null
-          role?: 'admin' | 'coach' | 'player'
-          player_id?: string | null
-          coach_id?: string | null
-          avatar_url?: string | null
-          locale?: string
-          created_at?: string
-          updated_at?: string
-        }
+        Row: UserProfile
+        Insert: Omit<UserProfile, 'created_at' | 'updated_at'>
+        Update: Partial<Omit<UserProfile, 'id' | 'created_at' | 'updated_at'>>
+        Relationships: []
       }
     }
     Views: {
@@ -308,20 +190,13 @@ export type Database = {
     Enums: {
       [_ in never]: never
     }
+    CompositeTypes: {
+      [_ in never]: never
+    }
   }
 }
 
-// Convenience types
+// Helper type for typed Supabase queries
 export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
-export type InsertTables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Insert']
-export type UpdateTables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update']
-
-// Table row types
-export type Player = Tables<'players'>
-export type Coach = Tables<'coaches'>
-export type Court = Tables<'courts'>
-export type Group = Tables<'groups'>
-export type GroupPlayer = Tables<'group_players'>
-export type Booking = Tables<'bookings'>
-export type Attendance = Tables<'attendance'>
-export type UserProfile = Tables<'user_profiles'>
+export type Insertable<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Insert']
+export type Updatable<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update']

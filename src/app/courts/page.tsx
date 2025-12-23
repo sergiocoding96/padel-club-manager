@@ -1,46 +1,44 @@
+import { Suspense } from 'react'
 import { getTranslations } from 'next-intl/server'
-import { CourtList } from '@/components/courts/CourtList'
-import { getCourts } from '@/lib/actions/courts'
+import { getCourts } from './actions'
+import { CourtsClient } from './CourtsClient'
+import { CourtsSkeleton } from '@/components/courts'
+
+export async function generateMetadata() {
+  const t = await getTranslations('courts')
+  return {
+    title: t('title'),
+    description: t('subtitle'),
+  }
+}
+
+async function CourtsContent() {
+  const courts = await getCourts()
+
+  return <CourtsClient initialCourts={courts} />
+}
 
 export default async function CourtsPage() {
   const t = await getTranslations('courts')
-  const tCommon = await getTranslations('common')
-
-  const result = await getCourts()
-  const courts = result.success && result.data ? result.data : []
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-stone-50 to-stone-100">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <CourtList
-          initialCourts={courts}
-          translations={{
-            title: t('title'),
-            addCourt: t('addCourt'),
-            editCourt: t('editCourt'),
-            noCourts: t('noCourts'),
-            addFirstCourt: t('addFirstCourt'),
-            name: t('name'),
-            surface: t('surface'),
-            indoor: t('indoor'),
-            outdoor: t('outdoor'),
-            location: t('location'),
-            status: t('status'),
-            available: t('available'),
-            maintenance: t('maintenance'),
-            reserved: t('reserved'),
-            save: tCommon('save'),
-            cancel: tCommon('cancel'),
-            edit: tCommon('edit'),
-            delete: tCommon('delete'),
-            deleteConfirm: t('deleteConfirm'),
-            deleteWarning: t('deleteWarning'),
-            courtCreated: t('courtCreated'),
-            courtUpdated: t('courtUpdated'),
-            courtDeleted: t('courtDeleted'),
-          }}
-        />
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-white to-blue-50/30">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Page Header */}
+        <header className="mb-8">
+          <h1 className="text-3xl font-bold text-stone-800 tracking-tight">
+            {t('title')}
+          </h1>
+          <p className="mt-2 text-stone-500">
+            {t('subtitle')}
+          </p>
+        </header>
+
+        {/* Courts Content with Suspense */}
+        <Suspense fallback={<CourtsSkeleton viewMode="grid" count={6} />}>
+          <CourtsContent />
+        </Suspense>
       </div>
-    </main>
+    </div>
   )
 }

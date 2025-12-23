@@ -112,20 +112,6 @@
     "errorDeleting": "Error al eliminar la pista",
     "errorLoading": "Error al cargar las pistas"
   },
-  "groups": {
-    "title": "Grupos",
-    "addGroup": "Anadir Grupo",
-    "name": "Nombre",
-    "levelRange": "Rango de nivel",
-    "coach": "Entrenador",
-    "maxPlayers": "Maximo jugadores",
-    "players": "Jugadores",
-    "status": "Estado",
-    "active": "Activo",
-    "inactive": "Inactivo",
-    "selectGroup": "Seleccionar grupo",
-    "noGroups": "No hay grupos configurados"
-  },
   "bookings": {
     "title": "Reservas",
     "calendar": "Calendario",
@@ -187,7 +173,7 @@
       "myClasses": "Mis clases",
       "todayRentals": "Alquileres hoy"
     },
-    "recurring": {
+    "recurringBooking": {
       "title": "Reserva recurrente",
       "enable": "Habilitar recurrencia",
       "frequency": "Frecuencia",
@@ -256,6 +242,215 @@
     "goToToday": "Ir a hoy",
     "previousWeek": "Semana anterior",
     "nextWeek": "Semana siguiente"
+  },
+  "groups": {
+    "title": "Grupos",
+    "subtitle": "Gestiona los grupos de jugadores por nivel",
+    "addGroup": "Crear Grupo",
+    "editGroup": "Editar Grupo",
+    "deleteGroup": "Eliminar Grupo",
+    "duplicateGroup": "Duplicar Grupo",
+    "viewDetails": "Ver Detalles",
+    "noGroups": "No hay grupos",
+    "noGroupsDescription": "Crea tu primer grupo para organizar a tus jugadores",
+    "groupNotFound": "Grupo no encontrado",
+    "groupDeleted": "Este grupo ha sido eliminado",
+    "form": {
+      "name": "Nombre del Grupo",
+      "namePlaceholder": "Ej: Grupo Intermedio Lunes",
+      "description": "Descripcion",
+      "descriptionPlaceholder": "Descripcion opcional del grupo",
+      "levelRange": "Rango de Nivel",
+      "levelMin": "Nivel Minimo",
+      "levelMax": "Nivel Maximo",
+      "maxPlayers": "Maximo de Jugadores",
+      "coach": "Entrenador",
+      "coachPlaceholder": "Selecciona un entrenador",
+      "noCoach": "Sin entrenador asignado",
+      "court": "Pista",
+      "courtPlaceholder": "Selecciona una pista",
+      "noCourt": "Sin pista asignada",
+      "color": "Color del Grupo",
+      "schedule": "Horario",
+      "addSchedule": "Anadir Horario",
+      "status": "Estado",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "create": "Crear Grupo",
+      "update": "Actualizar",
+      "editSubtitle": "Modifica los detalles del grupo"
+    },
+    "delete": {
+      "title": "Eliminar Grupo",
+      "message": "Estas seguro de que deseas eliminar el grupo \"{name}\"?",
+      "playersWarning": "Este grupo tiene {count} jugador(es) que seran removidos.",
+      "confirm": "Eliminar",
+      "deleting": "Eliminando..."
+    },
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "all": "Todos"
+    },
+    "players": {
+      "title": "Jugadores",
+      "count": "{count} jugador(es)",
+      "countOf": "{count} de {max} jugadores",
+      "empty": "Sin jugadores",
+      "emptyDescription": "Este grupo no tiene jugadores asignados",
+      "add": "Anadir Jugador",
+      "remove": "Quitar Jugador",
+      "removeConfirm": "Estas seguro de quitar a {name} del grupo?",
+      "search": "Buscar jugadores...",
+      "searchResults": "{count} jugador(es) encontrado(s)",
+      "noResults": "No se encontraron jugadores",
+      "alreadyInGroup": "Ya esta en este grupo",
+      "levelCompatible": "Nivel compatible",
+      "levelIncompatible": "Nivel fuera del rango",
+      "currentGroups": "Grupos actuales",
+      "noOtherGroups": "No esta en otros grupos",
+      "joinedAt": "Se unio el {date}",
+      "memberStatus": {
+        "active": "Activo",
+        "inactive": "Inactivo"
+      }
+    },
+    "schedule": {
+      "title": "Horario Semanal",
+      "noSchedule": "Sin horario definido",
+      "noScheduleDescription": "Este grupo no tiene horario asignado",
+      "addSlot": "Anadir Sesion",
+      "removeSlot": "Quitar Sesion",
+      "day": "Dia",
+      "startTime": "Hora de Inicio",
+      "endTime": "Hora de Fin",
+      "nextSession": "Proxima sesion",
+      "sessions": "{count} sesion(es) por semana"
+    },
+    "days": {
+      "sunday": "Domingo",
+      "monday": "Lunes",
+      "tuesday": "Martes",
+      "wednesday": "Miercoles",
+      "thursday": "Jueves",
+      "friday": "Viernes",
+      "saturday": "Sabado",
+      "short": {
+        "sunday": "Dom",
+        "monday": "Lun",
+        "tuesday": "Mar",
+        "wednesday": "Mie",
+        "thursday": "Jue",
+        "friday": "Vie",
+        "saturday": "Sab"
+      }
+    },
+    "filters": {
+      "title": "Filtros",
+      "status": "Estado",
+      "level": "Nivel",
+      "coach": "Entrenador",
+      "search": "Buscar por nombre...",
+      "clear": "Limpiar Filtros",
+      "activeFilters": "{count} filtro(s) activo(s)"
+    },
+    "sort": {
+      "title": "Ordenar",
+      "name": "Nombre",
+      "level": "Nivel",
+      "players": "Jugadores",
+      "created": "Fecha de Creacion",
+      "asc": "Ascendente",
+      "desc": "Descendente"
+    },
+    "view": {
+      "grid": "Vista de Cuadricula",
+      "list": "Vista de Lista"
+    },
+    "actions": {
+      "create": "Crear Grupo",
+      "update": "Actualizar Grupo",
+      "delete": "Eliminar Grupo",
+      "activate": "Activar",
+      "deactivate": "Desactivar",
+      "duplicate": "Duplicar",
+      "export": "Exportar"
+    },
+    "confirm": {
+      "delete": "Estas seguro de eliminar este grupo?",
+      "deleteDescription": "Esta accion desactivara el grupo. Los jugadores seran removidos automaticamente.",
+      "deleteHard": "Eliminar permanentemente (no se puede deshacer)",
+      "deactivate": "Estas seguro de desactivar este grupo?",
+      "deactivateDescription": "El grupo no aparecera en las listas activas."
+    },
+    "messages": {
+      "created": "Grupo creado exitosamente",
+      "updated": "Grupo actualizado exitosamente",
+      "deleted": "Grupo eliminado exitosamente",
+      "playerAdded": "Jugador anadido al grupo",
+      "playerRemoved": "Jugador removido del grupo",
+      "duplicated": "Grupo duplicado exitosamente",
+      "groupFull": "El grupo esta lleno",
+      "errorCreating": "Error al crear el grupo",
+      "errorUpdating": "Error al actualizar el grupo",
+      "errorDeleting": "Error al eliminar el grupo",
+      "errorLoading": "Error al cargar los grupos",
+      "errorAddingPlayer": "Error al anadir jugador",
+      "errorRemovingPlayer": "Error al remover jugador"
+    },
+    "validation": {
+      "nameRequired": "El nombre es requerido",
+      "nameMinLength": "El nombre debe tener al menos 3 caracteres",
+      "nameMaxLength": "El nombre no puede exceder 50 caracteres",
+      "levelMinRequired": "El nivel minimo es requerido",
+      "levelMaxRequired": "El nivel maximo es requerido",
+      "levelRangeInvalid": "El nivel minimo no puede ser mayor al maximo",
+      "maxPlayersRequired": "El maximo de jugadores es requerido",
+      "maxPlayersMin": "Debe haber al menos 1 jugador",
+      "maxPlayersMax": "No puede exceder 20 jugadores",
+      "scheduleTimeInvalid": "La hora de fin debe ser posterior a la de inicio"
+    },
+    "stats": {
+      "totalGroups": "Total de Grupos",
+      "activeGroups": "Grupos Activos",
+      "totalPlayers": "Jugadores en Grupos",
+      "averageSize": "Tamano Promedio",
+      "fullGroups": "Grupos Llenos"
+    },
+    "duplicate": {
+      "title": "Duplicar Grupo",
+      "description": "Crea una copia del grupo seleccionado",
+      "copyPlayers": "Copiar jugadores",
+      "copySchedule": "Copiar horario"
+    },
+    "empty": {
+      "title": "No hay grupos",
+      "description": "Comienza creando tu primer grupo de jugadores",
+      "action": "Crear Primer Grupo"
+    },
+    "card": {
+      "level": "Nivel {min}-{max}",
+      "playersCount": "{count}/{max}",
+      "noCoach": "Sin entrenador",
+      "full": "Completo"
+    },
+    "bulk": {
+      "selected": "{count} grupo(s) seleccionado(s)",
+      "selectAll": "Seleccionar Todo",
+      "deselectAll": "Deseleccionar Todo",
+      "activate": "Activar",
+      "deactivate": "Desactivar",
+      "delete": "Eliminar",
+      "assignCoach": "Asignar Entrenador",
+      "removeCoach": "Quitar Entrenador",
+      "confirmActivate": "Activar {count} grupo(s)?",
+      "confirmDeactivate": "Desactivar {count} grupo(s)?",
+      "confirmDelete": "Eliminar {count} grupo(s)?",
+      "confirmDeleteDescription": "Esta accion desactivara los grupos seleccionados.",
+      "success": "{success} de {total} grupos actualizados correctamente",
+      "error": "Error al actualizar {failed} grupo(s)",
+      "cancel": "Cancelar"
+    }
   },
   "errors": {
     "generic": "Ha ocurrido un error. Por favor, intentalo de nuevo.",

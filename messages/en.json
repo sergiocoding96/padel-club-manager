@@ -112,20 +112,6 @@
     "errorDeleting": "Error deleting court",
     "errorLoading": "Error loading courts"
   },
-  "groups": {
-    "title": "Groups",
-    "addGroup": "Add Group",
-    "name": "Name",
-    "levelRange": "Level range",
-    "coach": "Coach",
-    "maxPlayers": "Max players",
-    "players": "Players",
-    "status": "Status",
-    "active": "Active",
-    "inactive": "Inactive",
-    "selectGroup": "Select group",
-    "noGroups": "No groups configured"
-  },
   "bookings": {
     "title": "Bookings",
     "calendar": "Calendar",
@@ -187,7 +173,7 @@
       "myClasses": "My classes",
       "todayRentals": "Today's rentals"
     },
-    "recurring": {
+    "recurringBooking": {
       "title": "Recurring booking",
       "enable": "Enable recurrence",
       "frequency": "Frequency",
@@ -256,6 +242,215 @@
     "goToToday": "Go to today",
     "previousWeek": "Previous week",
     "nextWeek": "Next week"
+  },
+  "groups": {
+    "title": "Groups",
+    "subtitle": "Manage player groups by skill level",
+    "addGroup": "Create Group",
+    "editGroup": "Edit Group",
+    "deleteGroup": "Delete Group",
+    "duplicateGroup": "Duplicate Group",
+    "viewDetails": "View Details",
+    "noGroups": "No groups",
+    "noGroupsDescription": "Create your first group to organize your players",
+    "groupNotFound": "Group not found",
+    "groupDeleted": "This group has been deleted",
+    "form": {
+      "name": "Group Name",
+      "namePlaceholder": "E.g: Intermediate Monday Group",
+      "description": "Description",
+      "descriptionPlaceholder": "Optional group description",
+      "levelRange": "Level Range",
+      "levelMin": "Minimum Level",
+      "levelMax": "Maximum Level",
+      "maxPlayers": "Maximum Players",
+      "coach": "Coach",
+      "coachPlaceholder": "Select a coach",
+      "noCoach": "No coach assigned",
+      "court": "Court",
+      "courtPlaceholder": "Select a court",
+      "noCourt": "No court assigned",
+      "color": "Group Color",
+      "schedule": "Schedule",
+      "addSchedule": "Add Schedule",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save",
+      "create": "Create Group",
+      "update": "Update",
+      "editSubtitle": "Modify group details"
+    },
+    "delete": {
+      "title": "Delete Group",
+      "message": "Are you sure you want to delete the group \"{name}\"?",
+      "playersWarning": "This group has {count} player(s) who will be removed.",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "all": "All"
+    },
+    "players": {
+      "title": "Players",
+      "count": "{count} player(s)",
+      "countOf": "{count} of {max} players",
+      "empty": "No players",
+      "emptyDescription": "This group has no assigned players",
+      "add": "Add Player",
+      "remove": "Remove Player",
+      "removeConfirm": "Are you sure you want to remove {name} from the group?",
+      "search": "Search players...",
+      "searchResults": "{count} player(s) found",
+      "noResults": "No players found",
+      "alreadyInGroup": "Already in this group",
+      "levelCompatible": "Level compatible",
+      "levelIncompatible": "Level out of range",
+      "currentGroups": "Current groups",
+      "noOtherGroups": "Not in other groups",
+      "joinedAt": "Joined on {date}",
+      "memberStatus": {
+        "active": "Active",
+        "inactive": "Inactive"
+      }
+    },
+    "schedule": {
+      "title": "Weekly Schedule",
+      "noSchedule": "No schedule defined",
+      "noScheduleDescription": "This group has no assigned schedule",
+      "addSlot": "Add Session",
+      "removeSlot": "Remove Session",
+      "day": "Day",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "nextSession": "Next session",
+      "sessions": "{count} session(s) per week"
+    },
+    "days": {
+      "sunday": "Sunday",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "short": {
+        "sunday": "Sun",
+        "monday": "Mon",
+        "tuesday": "Tue",
+        "wednesday": "Wed",
+        "thursday": "Thu",
+        "friday": "Fri",
+        "saturday": "Sat"
+      }
+    },
+    "filters": {
+      "title": "Filters",
+      "status": "Status",
+      "level": "Level",
+      "coach": "Coach",
+      "search": "Search by name...",
+      "clear": "Clear Filters",
+      "activeFilters": "{count} active filter(s)"
+    },
+    "sort": {
+      "title": "Sort",
+      "name": "Name",
+      "level": "Level",
+      "players": "Players",
+      "created": "Creation Date",
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "view": {
+      "grid": "Grid View",
+      "list": "List View"
+    },
+    "actions": {
+      "create": "Create Group",
+      "update": "Update Group",
+      "delete": "Delete Group",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "duplicate": "Duplicate",
+      "export": "Export"
+    },
+    "confirm": {
+      "delete": "Are you sure you want to delete this group?",
+      "deleteDescription": "This action will deactivate the group. Players will be removed automatically.",
+      "deleteHard": "Delete permanently (cannot be undone)",
+      "deactivate": "Are you sure you want to deactivate this group?",
+      "deactivateDescription": "The group will not appear in active lists."
+    },
+    "messages": {
+      "created": "Group created successfully",
+      "updated": "Group updated successfully",
+      "deleted": "Group deleted successfully",
+      "playerAdded": "Player added to group",
+      "playerRemoved": "Player removed from group",
+      "duplicated": "Group duplicated successfully",
+      "groupFull": "The group is full",
+      "errorCreating": "Error creating group",
+      "errorUpdating": "Error updating group",
+      "errorDeleting": "Error deleting group",
+      "errorLoading": "Error loading groups",
+      "errorAddingPlayer": "Error adding player",
+      "errorRemovingPlayer": "Error removing player"
+    },
+    "validation": {
+      "nameRequired": "Name is required",
+      "nameMinLength": "Name must be at least 3 characters",
+      "nameMaxLength": "Name cannot exceed 50 characters",
+      "levelMinRequired": "Minimum level is required",
+      "levelMaxRequired": "Maximum level is required",
+      "levelRangeInvalid": "Minimum level cannot be greater than maximum",
+      "maxPlayersRequired": "Maximum players is required",
+      "maxPlayersMin": "Must have at least 1 player",
+      "maxPlayersMax": "Cannot exceed 20 players",
+      "scheduleTimeInvalid": "End time must be after start time"
+    },
+    "stats": {
+      "totalGroups": "Total Groups",
+      "activeGroups": "Active Groups",
+      "totalPlayers": "Players in Groups",
+      "averageSize": "Average Size",
+      "fullGroups": "Full Groups"
+    },
+    "duplicate": {
+      "title": "Duplicate Group",
+      "description": "Create a copy of the selected group",
+      "copyPlayers": "Copy players",
+      "copySchedule": "Copy schedule"
+    },
+    "empty": {
+      "title": "No groups",
+      "description": "Start by creating your first player group",
+      "action": "Create First Group"
+    },
+    "card": {
+      "level": "Level {min}-{max}",
+      "playersCount": "{count}/{max}",
+      "noCoach": "No coach",
+      "full": "Full"
+    },
+    "bulk": {
+      "selected": "{count} group(s) selected",
+      "selectAll": "Select All",
+      "deselectAll": "Deselect All",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "delete": "Delete",
+      "assignCoach": "Assign Coach",
+      "removeCoach": "Remove Coach",
+      "confirmActivate": "Activate {count} group(s)?",
+      "confirmDeactivate": "Deactivate {count} group(s)?",
+      "confirmDelete": "Delete {count} group(s)?",
+      "confirmDeleteDescription": "This action will deactivate the selected groups.",
+      "success": "{success} of {total} groups updated successfully",
+      "error": "Failed to update {failed} group(s)",
+      "cancel": "Cancel"
+    }
   },
   "errors": {
     "generic": "An error occurred. Please try again.",
